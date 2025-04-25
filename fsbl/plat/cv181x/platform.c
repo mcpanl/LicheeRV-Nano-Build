@@ -196,7 +196,7 @@ void sys_pll_od(void)
 #ifdef __riscv
 	// set mpll = 1050MHz
 	mmio_write_32(0x03002908, 0x05548101);
-
+	
 	// set clk_sel_23: [23] clk_sel for clk_c906_0 = 1 (DIV_IN0_SRC_MUX)
 	// set clk_sel_24: [24] clk_sel for clk_c906_1 = 1 (DIV_IN0_SRC_MUX)
 	mmio_write_32(0x03002020, 0x01800000);
@@ -325,7 +325,10 @@ void sys_pll_nd(int vc_overdrive)
 
 #ifdef __riscv
 	// set mpll = 850MHz
-	mmio_write_32(0x03002908, 0x00448101);
+	//mmio_write_32(0x03002908, 0x00448101);
+	
+	// set mpll = 900MHZ
+	mmio_write_32(0x03002908, 0x00488101);
 
 	// set clk_sel_23: [23] clk_sel for clk_c906_0 = 1 (DIV_IN0_SRC_MUX)
 	// set clk_sel_24: [24] clk_sel for clk_c906_1 = 1 (DIV_IN0_SRC_MUX)
