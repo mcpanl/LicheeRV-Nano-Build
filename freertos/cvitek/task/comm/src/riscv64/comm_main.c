@@ -143,6 +143,18 @@ do { \
 
 DEFINE_CVI_SPINLOCK(mailbox_lock, SPIN_MBOX);
 
+void task1(void *pvParameters)
+{
+        uart_init();
+
+        for(;;)
+        {
+                printf("U=Hello World!\n");
+                uart_puts("UR1\n");
+                vTaskDelay(pdMS_TO_TICKS(1000));
+        }
+}
+
 void main_cvirtos(void)
 {
 	printf("create cvi task\n");
@@ -150,10 +162,21 @@ void main_cvirtos(void)
 	request_irq(MBOX_INT_C906_2ND, prvQueueISR, 0, "mailbox", (void *)0);
 
 #ifdef FAST_IMAGE_ENABLE
-	start_camera(0);
+	//start_camera(0);
 #endif
 
-	main_create_tasks();
+	// main_create_tasks();
+
+        printf("Create task: task1");
+        xTaskCreate(
+                task1,
+                "task1",
+                configMINIMAL_STACK_SIZE,
+                NULL,
+                1,
+                NULL
+        );
+
 
 	/* Start the tasks and timer running. */
 	vTaskStartScheduler();
