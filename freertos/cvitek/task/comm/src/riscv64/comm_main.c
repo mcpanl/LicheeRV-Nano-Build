@@ -17,6 +17,9 @@
 #include "top_reg.h"
 #include "memmap.h"
 
+#include "hal_uart_dw.h"
+
+
 #include "comm.h"
 #include "cvi_spinlock.h"
 
@@ -145,13 +148,19 @@ DEFINE_CVI_SPINLOCK(mailbox_lock, SPIN_MBOX);
 
 void task1(void *pvParameters)
 {
-        uart_init();
+        hal_uart_init(UART0, 115200, 25 * 1000 * 1000);
 
         for(;;)
         {
-                printf("U=Hello World!\n");
-                uart_puts("UR1\n");
-                vTaskDelay(pdMS_TO_TICKS(1000));
+                printf("RTOS TICK!\n");
+               	
+                //char *str = "P=Hello world!\n";             
+
+                //while (*str) {
+		        //    uart_putc(*str++);
+	            //}
+
+                vTaskDelay(pdMS_TO_TICKS(5000));
         }
 }
 
